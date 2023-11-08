@@ -1,4 +1,5 @@
 import { _decorator, Component, director, game, instantiate, Label, Node, Prefab, sys, tween, Vec3 } from 'cc';
+import { EnemyCell } from './EnemyCell';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameOver')
@@ -20,6 +21,7 @@ export class GameOver extends Component {
         {
             this.loadLose();
         }
+        EnemyCell.isTapEnable=true;
     }
 
     update(deltaTime: number) {
