@@ -1,5 +1,7 @@
 import { _decorator, Component, director, game, instantiate, Label, Node, Prefab, sys, tween, Vec3 } from 'cc';
 import { EnemyCell } from './EnemyCell';
+import { audioSetting } from './audioSetting';
+import { GameDistribution } from './GameDistribution/GameDistribution';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameOver')
@@ -13,6 +15,9 @@ export class GameOver extends Component {
     
     
     start() {
+
+        //audioSetting.isSoundEnable = false;
+        //audioSetting.muteSound();
         if(this.node.name=="Win")
         {
             this.loadWin();
@@ -83,6 +88,27 @@ export class GameOver extends Component {
             this.node.parent.addChild(playAgain);
             this.node.removeFromParent();
         }
+    }
+
+    GDShowAd() {
+        // if (typeof gdsdk !== 'undefined' && gdsdk.showBanner) {
+        //     console.log("ad show");
+        //     gdsdk.showBanner();
+        // }
+        // else {
+        //     console.error("GameDistribution SDK not initialized or showAd function not available.");
+        // }
+
+        //  if (typeof gdsdk !== 'undefined' && gdsdk.showAd !== 'undefined') {
+        //     console.log("ad show");
+        //     gdsdk.showAd();
+            
+        // }
+        // else {
+        //     console.error("GameDistribution SDK not initialized or showAd function not available.");
+        // }
+        const singletonInstance: GameDistribution = GameDistribution.getInstance();
+        singletonInstance.GDShowAd();
     }
 }
 

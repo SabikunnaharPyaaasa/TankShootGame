@@ -1,4 +1,5 @@
 import { _decorator, Component, instantiate, Node, Prefab, BoxCollider2D, Rect, Sprite, UITransform, tween, Vec3, Label, Color, misc, Quat, sp, resources, sys, JsonAsset, view, game} from 'cc';
+import { audioSetting } from './audioSetting';
 const { ccclass, property } = _decorator;
 
 let playerNode: Node | null = null;
@@ -37,7 +38,8 @@ export class EnemyCell extends Component {
     
     levelData: number = 0;
     static isTapEnable:boolean = true;
-    isTouching:boolean = true;
+    isLineDrwaEnable: Boolean;
+
 
     //enemyValueArray = [7, 40, 14, 26];
     arrTankShootMinigame: number[][] = [
@@ -103,6 +105,7 @@ export class EnemyCell extends Component {
     loadAll()
     {
         //this.loadJSONData();
+        //audioSetting.unmuteSound();
         this.initGameLevelData();
         this.loadPlayerCell();
         this.resetCrosshairPosition();
@@ -122,8 +125,6 @@ export class EnemyCell extends Component {
         
         this.playerValue = this.arrTankShootMinigame[this.getGameLevel()][0];
 
-        
-        
         const labelNode = new Node();
         labelNode.name = "GameLabel"; 
         labelNode.setPosition(0,300);
@@ -135,8 +136,6 @@ export class EnemyCell extends Component {
         lblEnemy.fontSize = 52;
         lblEnemy.lineHeight = 60;
         lblEnemy.color = Color.WHITE;
-
-        
     }
 
     loadPlayerCell()
@@ -182,8 +181,6 @@ export class EnemyCell extends Component {
         lblPlayer.fontSize = 32;
         lblPlayer.lineHeight = 40;
         lblPlayer.color = Color.BLACK;
-
-        
 
         tween(this.cloud)
         .by(1.0, {position: new Vec3(-50,0)})
@@ -283,6 +280,10 @@ export class EnemyCell extends Component {
                 this.crosshair.setPosition(this.initPosCrosshairX,this.initPosCrosshairY);
                 return;
             }
+            if(EnemyCell.isTapEnable==true)
+            {
+                this.isLineDrwaEnable = true;
+            }
             this.crosshair.setPosition(this.initPosCrosshairX,this.initPosCrosshairY);
 
             this.disx = event.getUILocation().x-this.crosshair.getPosition().x;
@@ -295,12 +296,12 @@ export class EnemyCell extends Component {
             // this.node.addChild(enemyCellBack);
         } )
 
-        this.bg.on(Node.EventType.TOUCH_MOVE, (event) =>
+        this.crosshair.on(Node.EventType.TOUCH_MOVE, (event) =>
         {
             console.log("Mouse Moving");
-            if(EnemyCell.isTapEnable==false)
+            if(EnemyCell.isTapEnable==false || this.isLineDrwaEnable==false)
             {
-                this.crosshair.setPosition(this.initPosCrosshairX,this.initPosCrosshairY);
+                //this.crosshair.setPosition(this.initPosCrosshairX,this.initPosCrosshairY);
                 return;
             }
             
@@ -321,7 +322,7 @@ export class EnemyCell extends Component {
                 this.crosshair.setPosition(this.initPosCrosshairX,this.initPosCrosshairY);
                 return;
             }
-
+            this.isLineDrwaEnable = false;
             this.removeCell(event);
             this.crosshair.setPosition(this.initPosCrosshairX,this.initPosCrosshairY);
             console.log("touch end");
@@ -520,8 +521,6 @@ export class EnemyCell extends Component {
             
             this.node.removeFromParent();
         }
-        
-    
     }
 
     addPlayerCell()
@@ -551,8 +550,11 @@ export class EnemyCell extends Component {
         .delay(0.4)
         .call(() => {
             playerNode.getChildByName('PlayerLabel').getComponent(Label).string = this.playerValue.toString();
-            EnemyCell.isTapEnable = true;
             this.resetCrosshairPosition();
+        })
+        .delay(0.1)
+        .call(() => {
+            EnemyCell.isTapEnable = true;
         })
         .start();
     }
@@ -560,8 +562,6 @@ export class EnemyCell extends Component {
     getRandomInt(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
-    
 
     getGameLevel() :number
     {

@@ -3,5 +3,22 @@
   "uuid": "15a933b3-1a0e-422e-b211-804bad28a4a6",
   "creator": {
     "version": "3.8.0"
-  }
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SabikunnaharPyaaasa/TankShootGame.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SabikunnaharPyaaasa/TankShootGame/issues"
+  },
+  "homepage": "https://github.com/SabikunnaharPyaaasa/TankShootGame#readme",
+  "description": ""
 }

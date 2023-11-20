@@ -854,7 +854,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Quit",
+    "_name": "AdShow",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1009,7 +1009,7 @@
       "b": 0,
       "a": 255
     },
-    "_string": "Quit",
+    "_string": "Show Ad",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 20,
@@ -1199,7 +1199,7 @@
     },
     "component": "",
     "_componentId": "0dc3dV8UAdGVprwHxt/eHeJ",
-    "handler": "quitGame",
+    "handler": "GDShowAd",
     "customEventData": ""
   },
   {
@@ -1467,6 +1467,7 @@
       "__id__": 0
     },
     "fileId": "85dgOkYmxKWp062U2EasNo",
+    "instance": null,
     "targetOverrides": null
   }
 ]

@@ -13,6 +13,8 @@ export class LineScript extends Component {
     initPosCrosshairX:number;
     initPosCrosshairY:number;
 
+    isLineDrwaEnable: Boolean;
+
     start() {
         this.drawLine();
         this.onTouchListener();
@@ -44,18 +46,21 @@ export class LineScript extends Component {
             {
                 return;
             }
-            this.lineGraphics.clear();
-            console.log("Mouse enter");
-            this.initPosCrosshairX = this.crosshair.getPosition().x;
-            this.initPosCrosshairY = this.crosshair.getPosition().y;
-            this.touches.length = 0;
-            this.touches.push(this.crosshair.getPosition());
-
+            if(EnemyCell.isTapEnable==true)
+            {
+                this.isLineDrwaEnable = true;
+                this.lineGraphics.clear();
+                console.log("Mouse enter");
+                this.initPosCrosshairX = this.crosshair.getPosition().x;
+                this.initPosCrosshairY = this.crosshair.getPosition().y;
+                this.touches.length = 0;
+                this.touches.push(this.crosshair.getPosition());
+            }
         } )
 
         this.crosshair.on(Node.EventType.TOUCH_MOVE, (event) =>
         {
-            if(EnemyCell.isTapEnable==false)
+            if(EnemyCell.isTapEnable==false || this.isLineDrwaEnable==false)
             {
                 return;
             }
@@ -82,7 +87,7 @@ export class LineScript extends Component {
 
         this.crosshair.on(Node.EventType.TOUCH_END, (event) =>
         {
-           
+            this.isLineDrwaEnable = false;
             console.log("touch end");
             this.lineGraphics.clear();
         } )    
